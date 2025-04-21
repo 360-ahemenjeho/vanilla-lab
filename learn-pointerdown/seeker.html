@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Seeker</title>
+
+    <!-- style -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: rgb(19, 23, 31);
+        min-width: 1024px;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .track {
+        --sizeY: 8px;
+        height: var(--sizeY);
+        border-radius: 10px;
+        background-color: #1d2431;
+        border: 1.3px solid #202535;
+        width: 500px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .indicator {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 0%;
+        background-color: #323747;
+        transition: width 1.5s ease-in-out;
+        border-radius: 999px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="track" class="track">
+      <div id="indicator" class="indicator"></div>
+    </div>
+
+    <!-- script -->
+    <script>
+      const seekerEl = document.getElementById('track')
+      function trace(e) {
+        // logic: get since track will not start always on the left, subtract the left position of the object from the current x position of the cursor.
+        // convert to % logic: divide by width
+
+        const trackEl = e.currentTarget
+
+        const indicatorEl = trackEl.querySelector('#indicator')
+        const { width, left } = trackEl.getBoundingClientRect()
+        const cursorX = e.clientX
+        const indicatorWidth = (((cursorX - left) / width) * 100).toFixed(0)
+
+        indicatorEl.style.width = indicatorWidth + '%'
+      }
+
+      seekerEl.addEventListener('pointerdown', trace)
+      window.removeEventListener('pointerup', trace)
+    </script>
+  </body>
+</html>

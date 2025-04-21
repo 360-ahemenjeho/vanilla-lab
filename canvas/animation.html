@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animation with Canvas</title>
+
+    <style>
+      #canvas {
+        background-color: rgb(96, 236, 143);
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="600" height="400"></canvas>
+    <script>
+      const cnvs = document.querySelector('#canvas')
+      const ctx = cnvs.getContext('2d')
+
+      // Position and velocity
+      let x = 50
+      let y = 50
+      let dx = 2
+      let dy = 2
+      const radius = 20
+
+      function draw() {
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+        // Draw the ball
+        ctx.beginPath()
+        ctx.arc(x, y, radius, 0, Math.PI * 2)
+        ctx.fillStyle = 'blue'
+        ctx.fill()
+
+        // Update position
+        x += dx
+        y += dy
+
+        // Check boundaries and reverse direction if needed
+        if (x + radius > canvas.width || x - radius < 0) dx = -dx
+        if (y + radius > canvas.height || y - radius < 0) dy = -dy
+
+        // Call draw() again on the next frame
+        requestAnimationFrame(draw)
+      }
+
+      // Start the animation
+      draw()
+    </script>
+  </body>
+</html>
