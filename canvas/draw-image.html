@@ -1,0 +1,43 @@
+<canvas
+  id="myCanvas"
+  width="500"
+  height="500"
+  style="border: 1px solid #000"
+></canvas>
+
+<script>
+  const canvas = document.getElementById('myCanvas')
+  const ctx = canvas.getContext('2d')
+
+  const img = new Image()
+  img.src =
+    'https://images.unsplash.com/photo-1602524204740-3adb4c209d3c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'
+
+  img.onload = function () {
+    let revealWidth = 0
+    const speed = 2 // pixels to reveal per frame
+
+    function reveal() {
+      if (revealWidth < img.width) {
+        revealWidth += speed
+        ctx.clearRect(0, 0, canvas.width, canvas.height) // Clear previous
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          revealWidth,
+          img.height,
+          0,
+          0,
+          revealWidth,
+          img.height
+        )
+        requestAnimationFrame(reveal) // Keep animating
+      } else {
+        ctx.drawImage(img, 0, 0) // Fully draw at the end just to be sure
+      }
+    }
+
+    reveal()
+  }
+</script>
